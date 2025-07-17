@@ -14,8 +14,16 @@
             <button id="spin">Spin</button>
         </div>
         <div id="result"></div>
+        <hr style="margin: 40px 0;">
+        <h1>Spin the Wheel (1-8)</h1>
+        <div class="wheel-container">
+            <canvas id="wheel2" width="400" height="400"></canvas>
+            <button id="spin2">Spin</button>
+        </div>
+        <div id="result2"></div>
     </div>
     <script>
+        // Wheel 1: 1-45
         const options = Array.from({length: 45}, (_, i) => (i + 1).toString());
         const colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"];
         const canvas = document.getElementById('wheel');
@@ -74,7 +82,7 @@
             let degrees = startAngle * 180 / Math.PI + 90;
             let arcd = arc * 180 / Math.PI;
             let index = Math.floor((360 - (degrees % 360)) / arcd) % options.length;
-            resultDiv.innerHTML = `<h2>You won: ${options[index]}!</h2>`;
+            resultDiv.innerHTML = `<h2>You got: ${options[index]}</h2>`;
         }
 
         spinBtn.addEventListener('click', function() {
@@ -86,6 +94,77 @@
         });
 
         drawWheel();
+
+        // Wheel 2: 1-8
+        const options2 = Array.from({length: 8}, (_, i) => (i + 1).toString());
+        const canvas2 = document.getElementById('wheel2');
+        const ctx2 = canvas2.getContext('2d');
+        const spinBtn2 = document.getElementById('spin2');
+        const resultDiv2 = document.getElementById('result2');
+        let startAngle2 = 0;
+        let arc2 = Math.PI * 2 / options2.length;
+        let spinTimeout2 = null;
+        let spinAngleStart2 = 0;
+        let spinTime2 = 0;
+        let spinTimeTotal2 = 0;
+
+        function drawWheel2() {
+            ctx2.clearRect(0, 0, 400, 400);
+            for(let i = 0; i < options2.length; i++) {
+                let angle = startAngle2 + i * arc2;
+                ctx2.fillStyle = colors[i % colors.length];
+                ctx2.beginPath();
+                ctx2.moveTo(200, 200);
+                ctx2.arc(200, 200, 180, angle, angle + arc2, false);
+                ctx2.lineTo(200, 200);
+                ctx2.fill();
+                ctx2.save();
+                ctx2.fillStyle = "#fff";
+                ctx2.translate(200, 200);
+                ctx2.rotate(angle + arc2 / 2);
+                ctx2.textAlign = "right";
+                ctx2.font = "bold 24px sans-serif";
+                ctx2.fillText(options2[i], 170, 10);
+                ctx2.restore();
+            }
+            // Draw pointer
+            ctx2.fillStyle = "#000";
+            ctx2.beginPath();
+            ctx2.moveTo(200, 20);
+            ctx2.lineTo(220, 60);
+            ctx2.lineTo(180, 60);
+            ctx2.closePath();
+            ctx2.fill();
+        }
+
+        function rotateWheel2() {
+            spinAngleStart2 *= 0.97;
+            startAngle2 += spinAngleStart2;
+            drawWheel2();
+            spinTime2 += 30;
+            if(spinTime2 < spinTimeTotal2) {
+                spinTimeout2 = setTimeout(rotateWheel2, 30);
+            } else {
+                stopRotateWheel2();
+            }
+        }
+
+        function stopRotateWheel2() {
+            let degrees = startAngle2 * 180 / Math.PI + 90;
+            let arcd = arc2 * 180 / Math.PI;
+            let index = Math.floor((360 - (degrees % 360)) / arcd) % options2.length;
+            resultDiv2.innerHTML = `<h2>You got: ${options2[index]}</h2>`;
+        }
+
+        spinBtn2.addEventListener('click', function() {
+            spinAngleStart2 = Math.random() * 0.3 + 0.25;
+            spinTime2 = 0;
+            spinTimeTotal2 = Math.random() * 2000 + 4000;
+            resultDiv2.innerHTML = '';
+            rotateWheel2();
+        });
+
+        drawWheel2();
     </script>
 </body>
 </html> 
