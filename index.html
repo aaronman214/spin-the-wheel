@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spin the Wheel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Spin the Wheel!</h1>
+        <div class="wheel-container">
+            <canvas id="wheel" width="400" height="400"></canvas>
+            <button id="spin">Spin</button>
+        </div>
+        <div id="result"></div>
+    </div>
+    <script>
+        const options = ["Prize 1", "Prize 2", "Prize 3", "Prize 4", "Prize 5", "Prize 6"];
+        const colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"];
+        const canvas = document.getElementById('wheel');
+        const ctx = canvas.getContext('2d');
+        const spinBtn = document.getElementById('spin');
+        const resultDiv = document.getElementById('result');
+        let startAngle = 0;
+        let arc = Math.PI * 2 / options.length;
+        let spinTimeout = null;
+        let spinAngleStart = 0;
+        let spinTime = 0;
+        let spinTimeTotal = 0;
+
+        function drawWheel() {
+            ctx.clearRect(0, 0, 400, 400);
+            for(let i = 0; i < options.length; i++) {
+                let angle = startAngle + i * arc;
+                ctx.fillStyle = colors[i % colors.length];
+                ctx.beginPath();
+                ctx.moveTo(200, 200);
+                ctx.arc(200, 200, 180, angle, angle + arc, false);
+                ctx.lineTo(200, 200);
+                ctx.fill();
+                ctx.save();
+                ctx.fillStyle = "#fff";
+                ctx.translate(200, 200);
+                ctx.rotate(angle + arc / 2);
+                ctx.textAlign = "right";
+                ctx.font = "bold 18px sans-serif";
+                ctx.fillText(options[i], 170, 10);
+                ctx.restore();
+            }
+            // Draw pointer
+            ctx.fillStyle = "#000";
+            ctx.beginPath();
+            ctx.moveTo(200, 20);
+            ctx.lineTo(220, 60);
+            ctx.lineTo(180, 60);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function rotateWheel() {
+            spinAngleStart *= 0.97;
+            startAngle += spinAngleStart;
+            drawWheel();
+            spinTime += 30;
+            if(spinTime < spinTimeTotal) {
+                spinTimeout = setTimeout(rotateWheel, 30);
+            } else {
+                stopRotateWheel();
+            }
+        }
+
+        function stopRotateWheel() {
+            let degrees = startAngle * 180 / Math.PI + 90;
+            let arcd = arc * 180 / Math.PI;
+            let index = Math.floor((360 - (degrees % 360)) / arcd) % options.length;
+            resultDiv.innerHTML = `<h2>You won: ${options[index]}!</h2>`;
+        }
+
+        spinBtn.addEventListener('click', function() {
+            spinAngleStart = Math.random() * 0.3 + 0.25;
+            spinTime = 0;
+            spinTimeTotal = Math.random() * 2000 + 4000;
+            resultDiv.innerHTML = '';
+            rotateWheel();
+        });
+
+        drawWheel();
+    </script>
+</body>
+</html> 
