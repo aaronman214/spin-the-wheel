@@ -1,43 +1,54 @@
 body {
-    background: url('https://i.pinimg.com/1200x/a8/27/fc/a827fcd3ee0be0df65b8814620a0b564.jpg') no-repeat center center fixed;
+    background: url('https://i.imgur.com/0Q9QZ5F.jpg') no-repeat center center fixed;
     background-size: cover;
     font-family: Arial, sans-serif;
     margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
-    max-width: 350px;
-    margin: 20px auto;
+    max-width: 250px;
+    margin: 0 auto;
     background: none;
     box-shadow: none;
-    padding: 10px;
+    padding: 0;
     text-align: center;
 }
 
 .wheel-container {
-    margin: 20px 0 10px 0;
+    margin: 10px 0 5px 0;
 }
 
 canvas {
-    width: 250px !important;
-    height: 250px !important;
+    width: 150px !important;
+    height: 150px !important;
     display: block;
-    margin: 0 auto 10px auto;
+    margin: 0 auto 5px auto;
     background: none;
     box-shadow: none;
 }
 
 #spin, #spin2 {
-    margin-bottom: 10px;
-    font-size: 16px;
-    padding: 6px 18px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    padding: 4px 12px;
 }
 
 hr {
-    margin: 20px 0;
+    margin: 10px 0;
     border: none;
     border-top: 1px solid #aaa;
-    opacity: 0.5;
+    opacity: 0.3;
+}
+
+h1 {
+    font-size: 1.1em;
+    margin: 10px 0 5px 0;
+    background: none;
 }
 
 #result {
