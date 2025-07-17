@@ -1,5 +1,6 @@
 body {
-    background: #f0f0f0;
+    background: url('https://scontent.fmnl4-4.fna.fbcdn.net/v/t1.15752-9/519490073_1364218914645270_3778691488224059754_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=9f807c&_nc_eui2=AeEHNU5_CZg68Oam-yOPbxfcvE8u3Mortke8Ty7cyiu2R2HCFm7Qj2Cvcaqot0OntQMDqmDT1RwJOJPz1f2d7UtI&_nc_ohc=JscCJLY-BWgQ7kNvwEO_gA_&_nc_oc=Adme-xzqCMDDh0h811CySTzMUpCzKHUZp9vMSdur4blFPqOtSsrG8vZ6V8jAQj3n6BYmIWhYs4g_WuWTPeLrTT4K&_nc_zt=23&_nc_ht=scontent.fmnl4-4.fna&oh=03_Q7cD2wGAOI4r7GM0hUxnm3YJDo7615LyKolku-Pr9i5pY-920w&oe=68A0756D') no-repeat center center fixed;
+    background-size: cover;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
