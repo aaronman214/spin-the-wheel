@@ -16,7 +16,7 @@
         <div id="result"></div>
     </div>
     <script>
-        const options = ["Prize 1", "Prize 2", "Prize 3", "Prize 4", "Prize 5", "Prize 6"];
+        const options = Array.from({length: 45}, (_, i) => (i + 1).toString());
         const colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"];
         const canvas = document.getElementById('wheel');
         const ctx = canvas.getContext('2d');
