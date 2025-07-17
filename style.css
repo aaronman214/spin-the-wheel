@@ -1,42 +1,45 @@
 body {
-    background: url('https://i.pinimg.com/1200x/a8/27/fc/a827fcd3ee0be0df65b8814620a0b564.jpg') no-repeat center center fixed;
+    background: url('https://i.imgur.com/0Q9QZ5F.jpg') no-repeat center center fixed;
     background-size: cover;
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
 }
+
 .container {
-    max-width: 500px;
-    margin: 40px auto;
+    max-width: 350px;
+    margin: 20px auto;
     background: none;
     box-shadow: none;
-    padding: 30px;
+    padding: 10px;
     text-align: center;
 }
+
 .wheel-container {
-    position: relative;
-    margin: 20px 0;
+    margin: 20px 0 10px 0;
 }
-#wheel {
+
+canvas {
+    width: 250px !important;
+    height: 250px !important;
     display: block;
-    margin: 0 auto 20px auto;
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    background: #fafafa;
+    margin: 0 auto 10px auto;
+    background: none;
+    box-shadow: none;
 }
-#spin {
-    padding: 12px 32px;
-    font-size: 18px;
-    background: #36A2EB;
-    color: #fff;
+
+#spin, #spin2 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    padding: 6px 18px;
+}
+
+hr {
+    margin: 20px 0;
     border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.2s;
+    border-top: 1px solid #aaa;
+    opacity: 0.5;
 }
-#spin:hover {
-    background: #2286c3;
-}
+
 #result {
     margin-top: 24px;
     font-size: 22px;
