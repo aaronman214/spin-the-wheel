@@ -23,8 +23,12 @@
         <div id="result2"></div>
     </div>
     <script>
-        // Wheel 1: 1-45
-        const options = Array.from({length: 45}, (_, i) => (i + 1).toString());
+        // Wheel 1: 1-45 (special numbers first for trolling)
+        const specialNumbers = ["27", "13", "41", "29", "33"];
+        const allNumbers = Array.from({length: 45}, (_, i) => (i + 1).toString());
+        const remainingNumbers = allNumbers.filter(num => !specialNumbers.includes(num));
+        const options = [...specialNumbers, ...remainingNumbers];
+
         const colors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"];
         const canvas = document.getElementById('wheel');
         const ctx = canvas.getContext('2d');
@@ -167,4 +171,4 @@
         drawWheel2();
     </script>
 </body>
-</html> 
+</html>
