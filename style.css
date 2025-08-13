@@ -1,94 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spin the Wheel</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Spin the Wheel</h1>
-        <div class="wheel-container">
-            <canvas id="wheelCanvas" width="300" height="300"></canvas>
-        </div>
-        <button id="spin">Spin</button>
-        <div id="result"></div>
-    </div>
+html, body {
+    height: 100%;
+    width: 100%;
+    background: transparent;
+}
+body {
+    background: url('https://i.pinimg.com/1200x/a8/27/fc/a827fcd3ee0be0df65b8814620a0b564.jpg') no-repeat center center fixed;
+    background-size: contain;
+    background-repeat: no-repeat;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    min-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-    <script>
-        const canvas = document.getElementById("wheelCanvas");
-        const ctx = canvas.getContext("2d");
-        const spinBtn = document.getElementById("spin");
-        const resultDisplay = document.getElementById("result");
+.container {
+    max-width: 250px;
+    margin: 0 auto;
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    text-align: center;
+}
 
-        const numbers = Array.from({ length: 45 }, (_, i) => i + 1);
-        const preferred = [27, 13, 41, 29, 33];
-        let startAngle = 0;
-        const arc = (Math.PI * 2) / numbers.length;
+.wheel-container {
+    margin: 10px 0 5px 0;
+}
 
-        function drawWheel() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            numbers.forEach((num, i) => {
-                const angle = startAngle + i * arc;
-                ctx.beginPath();
-                ctx.fillStyle = i % 2 === 0 ? "#FFD700" : "#FF4500";
-                ctx.moveTo(canvas.width / 2, canvas.height / 2);
-                ctx.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2, angle, angle + arc);
-                ctx.fill();
-                ctx.save();
-                ctx.translate(canvas.width / 2, canvas.height / 2);
-                ctx.rotate(angle + arc / 2);
-                ctx.textAlign = "right";
-                ctx.fillStyle = "#000";
-                ctx.font = "bold 14px Arial";
-                ctx.fillText(num, canvas.width / 2 - 10, 5);
-                ctx.restore();
-            });
-        }
+canvas {
+    width: 150px !important;
+    height: 150px !important;
+    display: block;
+    margin: 0 auto 5px auto;
+    background: none;
+    box-shadow: none;
+}
 
-        function weightedRandom() {
-            const pool = [];
-            numbers.forEach(num => {
-                // Preferred numbers get 5x chance
-                const weight = preferred.includes(num) ? 5 : 1;
-                for (let i = 0; i < weight; i++) {
-                    pool.push(num);
-                }
-            });
-            return pool[Math.floor(Math.random() * pool.length)];
-        }
+#spin, #spin2 {
+    margin-bottom: 5px;
+    font-size: 14px;
+    padding: 4px 12px;
+}
 
-        function spinWheel() {
-            const chosenNumber = weightedRandom();
-            const chosenIndex = numbers.indexOf(chosenNumber);
-            const spins = 5; // full rotations
-            const finalAngle = (Math.PI * 3 / 2) - (chosenIndex * arc) - arc / 2;
-            const targetAngle = spins * 2 * Math.PI + finalAngle - startAngle;
+hr {
+    margin: 10px 0;
+    border: none;
+    border-top: 1px solid #aaa;
+    opacity: 0.3;
+}
 
-            let duration = 4000;
-            let startTime = null;
+h1 {
+    font-size: 1.1em;
+    margin: 10px 0 5px 0;
+    background: none;
+}
 
-            function animateSpin(timestamp) {
-                if (!startTime) startTime = timestamp;
-                const elapsed = timestamp - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const easeOut = 1 - Math.pow(1 - progress, 3);
-                startAngle += (targetAngle * easeOut - startAngle) * 0.1;
-                drawWheel();
-                if (progress < 1) {
-                    requestAnimationFrame(animateSpin);
-                } else {
-                    startAngle = finalAngle;
-                    drawWheel();
-                    resultDisplay.textContent = "Result: " + chosenNumber;
-                }
-            }
-            requestAnimationFrame(animateSpin);
-        }
-
-        drawWheel();
-        spinBtn.addEventListener("click", spinWheel);
-    </script>
-</body>
-</html>
+#result {
+    margin-top: 24px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #FF6384;
+} 
