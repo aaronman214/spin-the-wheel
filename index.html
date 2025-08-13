@@ -23,7 +23,7 @@
         <div id="result2"></div>
     </div>
     <script>
-        // Wheel 1: 1-45 (special numbers first for trolling)
+        // Wheel 1 setup
         const specialNumbers = ["27", "13", "41", "29", "33"];
         const allNumbers = Array.from({length: 45}, (_, i) => (i + 1).toString());
         const remainingNumbers = allNumbers.filter(num => !specialNumbers.includes(num));
@@ -40,10 +40,11 @@
         let spinAngleStart = 0;
         let spinTime = 0;
         let spinTimeTotal = 0;
+        let finalIndex = 0;
 
         function drawWheel() {
             ctx.clearRect(0, 0, 400, 400);
-            for(let i = 0; i < options.length; i++) {
+            for (let i = 0; i < options.length; i++) {
                 let angle = startAngle + i * arc;
                 ctx.fillStyle = colors[i % colors.length];
                 ctx.beginPath();
@@ -60,7 +61,7 @@
                 ctx.fillText(options[i], 170, 10);
                 ctx.restore();
             }
-            // Draw pointer
+            // Pointer
             ctx.fillStyle = "#000";
             ctx.beginPath();
             ctx.moveTo(200, 20);
@@ -75,7 +76,7 @@
             startAngle += spinAngleStart;
             drawWheel();
             spinTime += 30;
-            if(spinTime < spinTimeTotal) {
+            if (spinTime < spinTimeTotal) {
                 spinTimeout = setTimeout(rotateWheel, 30);
             } else {
                 stopRotateWheel();
@@ -83,13 +84,30 @@
         }
 
         function stopRotateWheel() {
-            // Force it to always land on one of the special numbers
-            const chosen = specialNumbers[Math.floor(Math.random() * specialNumbers.length)];
-            const index = options.indexOf(chosen);
-            resultDiv.innerHTML = `<h2>You got: ${options[index]}</h2>`;
+            // Proper alignment with finalIndex
+            const degreesPerSegment = arc * 180 / Math.PI;
+            const targetAngle = (finalIndex * degreesPerSegment) + degreesPerSegment / 2;
+            const rotationFix = ((360 - targetAngle) * Math.PI / 180);
+            startAngle = rotationFix;
+            drawWheel();
+
+            resultDiv.innerHTML = `<h2>You got: ${options[finalIndex]}</h2>`;
         }
 
-        spinBtn.addEventListener('click', function() {
+        function weightedRandomIndex() {
+            // More weight for special numbers
+            const weightedList = [];
+            options.forEach((num, i) => {
+                const weight = specialNumbers.includes(num) ? 5 : 1; // 5× more likely
+                for (let j = 0; j < weight; j++) {
+                    weightedList.push(i);
+                }
+            });
+            return weightedList[Math.floor(Math.random() * weightedList.length)];
+        }
+
+        spinBtn.addEventListener('click', function () {
+            finalIndex = weightedRandomIndex();
             spinAngleStart = Math.random() * 0.3 + 0.25;
             spinTime = 0;
             spinTimeTotal = Math.random() * 2000 + 4000;
@@ -99,7 +117,7 @@
 
         drawWheel();
 
-        // Wheel 2: 1-8
+        // Wheel 2 unchanged
         const options2 = Array.from({length: 8}, (_, i) => (i + 1).toString());
         const canvas2 = document.getElementById('wheel2');
         const ctx2 = canvas2.getContext('2d');
@@ -114,7 +132,7 @@
 
         function drawWheel2() {
             ctx2.clearRect(0, 0, 400, 400);
-            for(let i = 0; i < options2.length; i++) {
+            for (let i = 0; i < options2.length; i++) {
                 let angle = startAngle2 + i * arc2;
                 ctx2.fillStyle = colors[i % colors.length];
                 ctx2.beginPath();
@@ -131,7 +149,6 @@
                 ctx2.fillText(options2[i], 170, 10);
                 ctx2.restore();
             }
-            // Draw pointer
             ctx2.fillStyle = "#000";
             ctx2.beginPath();
             ctx2.moveTo(200, 20);
@@ -146,7 +163,7 @@
             startAngle2 += spinAngleStart2;
             drawWheel2();
             spinTime2 += 30;
-            if(spinTime2 < spinTimeTotal2) {
+            if (spinTime2 < spinTimeTotal2) {
                 spinTimeout2 = setTimeout(rotateWheel2, 30);
             } else {
                 stopRotateWheel2();
@@ -160,7 +177,7 @@
             resultDiv2.innerHTML = `<h2>You got: ${options2[index]}</h2>`;
         }
 
-        spinBtn2.addEventListener('click', function() {
+        spinBtn2.addEventListener('click', function () {
             spinAngleStart2 = Math.random() * 0.3 + 0.25;
             spinTime2 = 0;
             spinTimeTotal2 = Math.random() * 2000 + 4000;
