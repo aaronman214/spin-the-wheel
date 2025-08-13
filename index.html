@@ -83,9 +83,9 @@
         }
 
         function stopRotateWheel() {
-            let degrees = startAngle * 180 / Math.PI + 90;
-            let arcd = arc * 180 / Math.PI;
-            let index = Math.floor((360 - (degrees % 360)) / arcd) % options.length;
+            // Force it to always land on one of the special numbers
+            const chosen = specialNumbers[Math.floor(Math.random() * specialNumbers.length)];
+            const index = options.indexOf(chosen);
             resultDiv.innerHTML = `<h2>You got: ${options[index]}</h2>`;
         }
 
